@@ -1,84 +1,197 @@
-Blog Platform with Dynamic Custom Blocks and Themes
-This is a full-featured blogging platform built with Next.js (App Router), React, and Tailwind CSS. It allows users to create, read, and manage blog posts, featuring dynamic {{block ...}} tags, a comment system, pagination, search/filter capabilities, and theme switching.
+# 📝 Next.js Blog Platform with Dynamic Features & Themes
 
-Features
-Home Page (/): Displays a list of blog posts with "Load More" pagination, and robust search/filter options by keyword and author.
+This **Next.js blog platform** offers a full-featured blogging experience with dynamic content rendering, theme customization, and modern tech integration like React, Tailwind CSS, and MongoDB.
 
-Post Detail Page (/posts/[slug]): Shows the full blog content, dynamically parsing and rendering {{block ...}} tags into custom React components. Includes a comment section.
+---
 
-Create Blog Page (/create): Client-side form for creating new blog posts using a TinyMCE rich text editor.
+## 🚀 Features
 
-Edit Blog Page (/edit/[id]): Client-side form for editing existing blog posts, also using TinyMCE.
+- **Home Page (`/`)**  
+  Paginated blog posts with "Load More", search, and filter by keyword and author.
 
-Comment System: Allows users to add comments to each blog post. Comments are persisted in MongoDB.
+- **Post Detail Page (`/posts/[slug]`)**  
+  Displays full blog content and dynamically renders `{{block ...}}` tags into custom React components. Includes a comment section.
 
-API Routes (/api/posts, /api/posts/[id], /api/comments): RESTful API endpoints for comprehensive CRUD (Create, Read, Update, Delete) operations on blog posts and comments.
+- **Create/Edit Pages (`/create`, `/edit/[id]`)**  
+  Client-side forms with rich text editing via TinyMCE.
 
-Dynamic Custom Blocks: Content can include {{block name="..." attribute="..."}} tags, which are parsed using regex and replaced with interactive React components (e.g., product lists, image showcases).
+- **Comment System**  
+  Users can add and view comments; stored in MongoDB.
 
-SEO-Friendly Slugs: Blog posts use human-readable slugs in their URLs (e.g., /posts/my-awesome-blog-post).
+- **API Routes**  
+  RESTful endpoints:  
+  - `/api/posts`  
+  - `/api/posts/[id]`  
+  - `/api/comments`
 
-Theme Switching: Supports light and dark modes, with user preference persisted in local storage and respecting system preference on first load.
+- **Dynamic Custom Blocks**  
+  Custom `{{block ...}}` tags render interactive UI (e.g., product lists, image showcases).
 
-Toast Notifications: Provides user feedback for various actions using react-hot-toast.
+- **SEO-Friendly Slugs**  
+  Human-readable URLs for each post.
 
-Tech Stack
-Framework: Next.js 15+ (App Router)
+- **Theme Switching**  
+  Light and dark modes with local storage and system preference support.
 
-Language: TypeScript
+- **Toast Notifications**  
+  User feedback using `react-hot-toast`.
 
-Styling: Tailwind CSS v4 (Utility-first CSS framework)
+---
 
-@tailwindcss/postcss for v4 integration.
+## 🛠 Tech Stack
 
-darkMode: 'class' for theme switching.
+| Tool | Usage |
+|------|-------|
+| **Framework** | Next.js 15+ (App Router) |
+| **Language** | TypeScript |
+| **Styling** | Tailwind CSS v4 (`@tailwindcss/postcss`, `darkMode: 'class'`) |
+| **Database** | MongoDB (via Mongoose) |
+| **Rendering** | Client + Server Components |
+| **Editor** | TinyMCE (theme-adaptive) |
+| **UI** | Custom Tailwind-styled components |
+| **Notifications** | `react-hot-toast` |
 
-Database: MongoDB (persisted via mongoose)
+---
 
-ORM: Mongoose
+## ⚙️ Setup Instructions
 
-Rendering: Client Components for interactive pages (/, /create, /edit/[id]), Server Components for data fetching and initial rendering on server.
+### 1. Prerequisites
 
-Rich Text Editor: TinyMCE (with dynamic theme support)
+- Node.js v18+ (use `nvm` or `fnm` recommended)
+- npm or Yarn
+- MongoDB (local or cloud instance)
 
-UI Components: Custom-built components with Tailwind CSS.
+---
 
-Notifications: react-hot-toast
+### 2. Get the Project
 
-Setup Instructions
-Follow these steps to get the project up and running on your local machine.
+```bash
+cd my-blog-post
+```
 
-1. Prerequisites
-Node.js (v18.x or later, highly recommended to use a Node Version Manager like nvm or fnm for managing Node.js versions safely)
+---
 
-npm (comes with Node.js) or Yarn
+### 3. Install Dependencies
 
-A MongoDB instance (local or cloud-hosted like MongoDB Atlas).
-
-2. Clone the Repository (Simulated)
-Assuming you've created your Next.js project and are adding these files. If you already have a project, simply navigate to its root.
-
-cd my-project
-
-3. Install Dependencies
-Ensure your package.json includes all necessary dependencies (as shown in earlier prompts). Then run:
-
+```bash
 npm install
 # or
 yarn install
+```
 
-(Ensure react-hot-toast and @tinymce/tinymce-react are installed manually if your initial setup didn't include them.)
+---
 
-4. Environment Variables
-Create a file named .env.local at the root of your project (same level as package.json). Add your MongoDB connection URI and TinyMCE API key:
+### 4. Environment Variables
 
+Create `.env.local` at the root:
+
+```env
 # .env.local
-
 MONGODB_URI="mongodb+srv://<your_username>:<your_password>@<your_cluster_url>/<your_database_name>?retryWrites=true&w=majority"
-NEXT_PUBLIC_TINYMCE_API_KEY="YOUR_TINY_MCE_API_KEY_HERE"
+TINYMCE_API_KEY="YOUR_TINY_MCE_API_KEY_HERE"
+```
 
-Replace placeholders with your actual MongoDB Atlas (or local MongoDB) connection string.
+> 🔒 **Do not commit `.env.local`**
 
-Replace YOUR_TINY_MCE_API_KEY_HERE with your actual API key from TinyMCE Cloud.
+---
 
-Security Note: Do NOT commit .env.local to version control (Git). It's typically ignored by default in Next.js projects.
+### 5. Configure Tailwind CSS
+
+Ensure your `tailwind.config.ts` looks like:
+
+```ts
+// tailwind.config.ts
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
+  darkMode: 'class',
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  theme: { extend: {} },
+  plugins: [],
+};
+
+export default config;
+```
+
+---
+
+### 6. Update Global Styles
+
+Update `src/styles/globals.css`:
+
+```css
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+html.dark {
+  color-scheme: dark;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+```
+
+---
+
+### 7. Update Source Files
+
+Ensure all `src/` directory files are updated with the latest components, routes, API handlers, models (e.g., `models/Comment.ts`), etc.
+
+---
+
+### 8. Add Public Images
+
+Place required images in the `public/` folder:
+
+```
+/public/
+  ├── keyboard.png
+  ├── mouse.png
+  ├── monitor.png
+  └── top-products.png
+```
+
+---
+
+### 9. Start the Development Server
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000)
+
+---
+
+### 10. (Optional) Seed Initial Data
+
+Trigger the `seedInitialData()` function manually via a temporary API route or server script to populate demo posts.
+
+---
+
+## 🌐 Live Demo
+
+> ⚠️ No live demo available — designed for local deployment only.
+
+---
+
+## 📄 License
+
+MIT – use freely and modify as needed.
