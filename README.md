@@ -188,7 +188,7 @@ Trigger the `seedInitialData()` function manually via a temporary API route or s
 
 ## 🌐 Live Demo
 
-> ⚠️ No live demo available — designed for local deployment only.
+Visit: [https://my-blog-post-three.vercel.app](https://my-blog-post-three.vercel.app)
 
 ---
 
