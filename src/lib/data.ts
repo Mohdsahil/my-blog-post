@@ -3,7 +3,16 @@ import mongoose, { Document, Schema, Model } from "mongoose";
 import { BlogPost, Comment } from "./types";
 
 // Blog Modal
-interface IBlogPost extends BlogPost, Document {}
+interface IBlogPost extends Document {
+  id: string;
+  title: string;
+  author: string;
+  shortSnippet: string;
+  coverImage?: string;
+  publishedDate: string;
+  content: string;
+  slug: string;
+}
 
 const BlogPostSchema: Schema = new Schema({
   id: { type: String, required: true, unique: true },
@@ -24,7 +33,13 @@ function getBlogPostModel(): Model<IBlogPost> {
   return mongoose.model<IBlogPost>("BlogPost", BlogPostSchema);
 }
 
-interface IComment extends Comment, Document {}
+interface IComment extends Document {
+  id: string;
+  postId: string;
+  author: string;
+  content: string;
+  createdAt: string;
+}
 
 const CommentSchema: Schema = new Schema({
   id: { type: String, required: true, unique: true },

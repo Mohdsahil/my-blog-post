@@ -1,25 +1,31 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getPostById, updatePost, deletePost } from '@/lib/data';
 import { BlogPost } from '@/lib/types';
 
-interface Params {
-  id: string;
-}
-
-export async function GET(req: Request, { params }: { params: Params }) {
-  const { id } = params;
-  const post = await getPostById(id);
-
-  if (!post) {
-    return NextResponse.json({ message: 'Post not found' }, { status: 404 });
-  }
-  return NextResponse.json(post);
-}
-
-export async function PUT(req: Request, { params }: { params: Params }) {
-  const { id } = params;
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const updatedFields: Partial<Omit<BlogPost, 'id' | 'publishedDate' | 'slug'>> = await req.json();
+    const { id } = await params;
+    const post = await getPostById(id);
+
+    if (!post) {
+      return NextResponse.json({ message: 'Post not found' }, { status: 404 });
+    }
+    return NextResponse.json(post);
+  } catch (error) {
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const updatedFields: Partial<Omit<BlogPost, 'id' | 'publishedDate' | 'slug'>> = await request.json();
 
     if (Object.keys(updatedFields).length === 0) {
       return NextResponse.json({ message: 'No fields to update' }, { status: 400 });
@@ -36,9 +42,12 @@ export async function PUT(req: Request, { params }: { params: Params }) {
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: Params }) {
-  const { id } = params;
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
+    const { id } = await params;
     const success = await deletePost(id);
 
     if (!success) {

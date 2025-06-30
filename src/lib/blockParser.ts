@@ -27,7 +27,15 @@ export const parseBlocks = (content: string): { text: string; blocks: CustomBloc
       }
     }
 
-    const block: CustomBlock = attrs as CustomBlock; // Type assertion
+    // Ensure required properties are present
+    if (!attrs.name || typeof attrs.name !== 'string') {
+      throw new Error('Block must have a name property');
+    }
+
+    const block: CustomBlock = {
+      name: attrs.name,
+      ...attrs
+    };
     blocks.push(block);
 
     // Replace the block tag with a unique placeholder

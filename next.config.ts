@@ -2,7 +2,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true, // or false, depending on your preference
-  swcMinify: true, // or false
   images: {
     remotePatterns: [
       {

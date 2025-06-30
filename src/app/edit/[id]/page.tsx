@@ -6,12 +6,11 @@ import RichTextEditor from '@/app/components/blog/RichTextEditor';
 import { BlogPost } from '@/lib/types';
 import { toast } from 'react-hot-toast'; 
 
-interface EditPostPageProps {
-  params: { id: string };
+interface EditPostFormProps {
+  id: string;
 }
 
-export default function EditPostPage({ params }: EditPostPageProps) {
-  const { id } = params;
+function EditPostForm({ id }: EditPostFormProps) {
   const router = useRouter();
 
   const [post, setPost] = useState<BlogPost | null>(null);
@@ -229,4 +228,13 @@ export default function EditPostPage({ params }: EditPostPageProps) {
       </form>
     </div>
   );
+}
+
+interface EditPostPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function EditPostPage({ params }: EditPostPageProps) {
+  const { id } = await params;
+  return <EditPostForm id={id} />;
 }

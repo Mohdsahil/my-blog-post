@@ -9,11 +9,12 @@ import Link from "next/link";
 import Image from "next/image";
 
 interface PostDetailPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: PostDetailPageProps) {
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
   if (!post) {
     return {
       title: "Post Not Found",
@@ -26,7 +27,8 @@ export async function generateMetadata({ params }: PostDetailPageProps) {
 }
 
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
-  const post: BlogPost | undefined = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post: BlogPost | undefined = await getPostBySlug(slug);
 
   if (!post) {
     notFound(); // Next.js built-in notFound handler
