@@ -1,4 +1,3 @@
-// src/lib/types.ts
 export interface BlogPost {
   id: string;
   title: string;
@@ -14,7 +13,6 @@ export interface CustomBlock {
   name: string;
   image?: string;
   products?: string[]; // Array of SKUs
-  // Add other properties as needed for different block types
 }
 
 export interface Comment {

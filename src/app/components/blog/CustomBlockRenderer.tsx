@@ -50,7 +50,6 @@ const CustomBlockRenderer: React.FC<CustomBlockRendererProps> = ({ block }) => {
           )}
         </div>
       );
-    // Add more cases for different block names
     default:
       return (
         <div className="my-4 p-4 border border-red-300 bg-red-50 rounded text-red-700">
