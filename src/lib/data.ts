@@ -177,7 +177,7 @@ export const createPost = async (
     shortSnippet: createdPost.shortSnippet,
     coverImage: createdPost.coverImage,
     publishedDate: createdPost.publishedDate,
-    content: createdPost.content,
+    content: createdPost.content,  // {{block name="Top Picks" image="/top-products.png" products="SKU123,SKU456"}}
     slug: createdPost.slug,
   };
 };
