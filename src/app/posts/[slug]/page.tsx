@@ -1,4 +1,3 @@
-// src/app/posts/[slug]/page.tsx
 import { getPostBySlug } from "@/lib/data";
 import { notFound } from "next/navigation";
 import { parseBlocks } from "@/lib/blockParser";
@@ -31,13 +30,11 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const post: BlogPost | undefined = await getPostBySlug(slug);
 
   if (!post) {
-    notFound(); // Next.js built-in notFound handler
+    notFound();
   }
 
-  // Parse content to extract text and blocks
   const { text: contentWithoutBlocks, blocks } = parseBlocks(post.content);
 
-  // Split content by placeholders and insert components
   const contentParts = contentWithoutBlocks.split(
     /(__BLOCK_PLACEHOLDER_\d+__)/g
   );
@@ -74,7 +71,6 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
               <CustomBlockRenderer key={index} block={block} />
             ) : null;
           }
-          // Basic text rendering, you might want a Markdown parser here
           return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
         })}
       </div>
